@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
@@ -6,6 +6,18 @@
 <title>NexaDev — Software Development Team</title>
 <meta name="description" content="NexaDev adalah software development team yang berfokus menciptakan solusi digital modern, fungsional, dan berdampak." />
 <meta name="theme-color" content="#04070d" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="NexaDev — Software Development Team" />
+<meta property="og:description" content="We Create Digital Solutions. NexaDev is a collaborative software development team focused on creating modern and useful digital solutions." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="NexaDev — Software Development Team" />
+<meta name="twitter:description" content="We Create Digital Solutions." />
+
+<!-- Favicon (SVG inline) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%233b82f6'/%3E%3Cstop offset='.5' stop-color='%2322d3ee'/%3E%3Cstop offset='1' stop-color='%2334d399'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M9 23V9l14 14V9' stroke='%2304121a' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -13,15 +25,17 @@
 /* =========================================================
    NEXADEV — SINGLE FILE WEBSITE
    1. Tokens & Reset
-   2. Background Decor
+   2. Scroll Progress + Background Decor
    3. Navbar
    4. Hero
    5. About
    6. Team
-   7. Projects
-   8. Contact
-   9. Footer
-   10. Utilities & Responsive
+   7. Process (How We Work)
+   8. Projects
+   9. Contact + Form
+   10. Footer
+   11. Back to Top + Toast
+   12. Utilities & Responsive
    ========================================================= */
 
 /* ============ 1. TOKENS & RESET ============ */
@@ -36,7 +50,7 @@
   --border-strong: rgba(255,255,255,.16);
 
   --text:  #e8eef8;
-  --muted: #8b98ad;
+  --muted: #9aa8bd;
 
   --blue:  #3b82f6;
   --cyan:  #22d3ee;
@@ -68,14 +82,13 @@ body{
   -moz-osx-font-smoothing: grayscale;
 }
 
-img, svg{ display:block; max-width:100%; }
+img, svg{ display: block; max-width: 100%; }
 a{ color: inherit; text-decoration: none; }
 button{ font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
 ul{ list-style: none; }
 
 ::selection{ background: rgba(34,211,238,.28); color: #fff; }
 
-/* Scrollbar */
 ::-webkit-scrollbar{ width: 10px; }
 ::-webkit-scrollbar-track{ background: #04070d; }
 ::-webkit-scrollbar-thumb{
@@ -85,7 +98,24 @@ ul{ list-style: none; }
 }
 ::-webkit-scrollbar-thumb:hover{ background: linear-gradient(180deg, #22d3ee, #34d399); }
 
-/* ============ 2. BACKGROUND DECOR ============ */
+/* ============ 2. SCROLL PROGRESS + BG DECOR ============ */
+.scroll-progress{
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 101;
+  background: rgba(255,255,255,.03);
+  pointer-events: none;
+}
+.scroll-progress span{
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--grad);
+  box-shadow: 0 0 14px rgba(34,211,238,.7);
+  transition: width .08s linear;
+}
+
 .bg-decor{
   position: fixed;
   inset: 0;
@@ -125,7 +155,6 @@ ul{ list-style: none; }
   mask-image: radial-gradient(ellipse 90% 62% at 50% 0%, #000 15%, transparent 78%);
 }
 
-/* Semua konten di atas dekorasi */
 header, main, footer, .mobile-menu{ position: relative; z-index: 1; }
 
 /* ============ 3. NAVBAR ============ */
@@ -211,7 +240,6 @@ header, main, footer, .mobile-menu{ position: relative; z-index: 1; }
 
 .nav-cta{ display: inline-flex; }
 
-/* Hamburger */
 .hamburger{
   display: none;
   width: 44px; height: 44px;
@@ -236,7 +264,6 @@ header, main, footer, .mobile-menu{ position: relative; z-index: 1; }
 .hamburger.open span:nth-child(2){ opacity: 0; transform: scaleX(.4); }
 .hamburger.open span:nth-child(3){ top: 21px; transform: rotate(-45deg); }
 
-/* Mobile menu */
 .mobile-menu{
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -343,7 +370,6 @@ h1{
   margin-bottom: 48px;
 }
 
-/* Buttons */
 .btn{
   position: relative;
   display: inline-flex;
@@ -399,7 +425,6 @@ h1{
   to{ transform: scale(2.4); opacity: 0; }
 }
 
-/* Hero stats */
 .hero-stats{
   display: flex;
   flex-wrap: wrap;
@@ -419,6 +444,8 @@ h1{
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
+  min-width: 1.6em;
 }
 .stat-label{
   font-size: .8rem;
@@ -426,7 +453,6 @@ h1{
   letter-spacing: .04em;
 }
 
-/* Hero visual */
 .hero-visual{
   position: relative;
   display: flex;
@@ -601,7 +627,6 @@ h1{
   background: rgba(255,255,255,.075);
 }
 
-/* Floating chips */
 .float-card{
   position: absolute;
   z-index: 2;
@@ -831,7 +856,79 @@ h2{
 }
 .team-card:hover .team-line{ width: 84px; opacity: 1; }
 
-/* ============ 7. PROJECTS ============ */
+/* ============ 7. PROCESS (HOW WE WORK) ============ */
+.process-head{
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 62px;
+}
+.process-head .eyebrow{ justify-content: center; }
+.process-head .eyebrow::before{ display: none; }
+.process-head .section-sub{ margin: 14px auto 0; }
+
+.process-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  position: relative;
+}
+.process-grid::before{
+  content: '';
+  position: absolute;
+  top: 32px;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(34,211,238,.35) 15%,
+    rgba(34,211,238,.35) 85%,
+    transparent 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+.process-step{
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 8px;
+}
+.step-number{
+  width: 64px; height: 64px;
+  margin: 0 auto 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: .04em;
+  color: var(--cyan);
+  background: rgba(9,14,23,.92);
+  border: 1px solid var(--border-strong);
+  transition: transform .4s var(--ease), background .4s ease, color .4s ease, border-color .4s ease, box-shadow .4s ease;
+}
+.process-step:hover .step-number{
+  background: var(--grad);
+  color: #04121a;
+  border-color: transparent;
+  transform: scale(1.08) translateY(-3px);
+  box-shadow: 0 16px 36px -12px rgba(34,211,238,.75);
+}
+.process-step h3{
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  margin-bottom: 8px;
+}
+.process-step p{
+  font-size: .88rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ============ 8. PROJECTS ============ */
 .projects-head{
   max-width: 640px;
   margin-bottom: 52px;
@@ -970,7 +1067,7 @@ h2{
   font-weight: 600;
 }
 
-/* ============ 8. CONTACT ============ */
+/* ============ 9. CONTACT + FORM ============ */
 .cta-card{
   position: relative;
   text-align: center;
@@ -995,14 +1092,159 @@ h2{
 .cta-card .eyebrow{ justify-content: center; }
 .cta-card .eyebrow::before{ display: none; }
 .cta-card h2{ margin-bottom: 18px; }
-.cta-card p{
+.cta-card > p{
   color: var(--muted);
   max-width: 520px;
-  margin: 0 auto 34px;
+  margin: 0 auto 40px;
   font-size: 1.02rem;
 }
 
-/* Toast */
+.contact-form{
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: left;
+}
+.form-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.form-group{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.form-group label{
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #9aa8bd;
+}
+.form-group input,
+.form-group textarea{
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255,255,255,.028);
+  color: var(--text);
+  font: inherit;
+  font-size: .94rem;
+  transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
+  resize: vertical;
+  min-height: 52px;
+}
+.form-group textarea{
+  min-height: 130px;
+  line-height: 1.6;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder{
+  color: #5a6779;
+}
+.form-group input:focus,
+.form-group textarea:focus{
+  outline: none;
+  border-color: rgba(34,211,238,.55);
+  background: rgba(34,211,238,.045);
+  box-shadow: 0 0 0 4px rgba(34,211,238,.08);
+}
+.contact-form .btn{
+  align-self: center;
+  margin-top: 8px;
+  min-width: 200px;
+}
+
+/* ============ 10. FOOTER ============ */
+.footer{
+  border-top: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,.018), transparent);
+  padding: 56px 0 30px;
+  position: relative;
+}
+.footer::before{
+  content: '';
+  position: absolute;
+  top: -1px; left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34,211,238,.55), transparent);
+  pointer-events: none;
+}
+.footer-inner{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 34px;
+  border-bottom: 1px solid var(--border);
+}
+.footer-brand p{
+  margin-top: 12px;
+  font-size: .88rem;
+  color: var(--muted);
+}
+.footer-nav{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+}
+.footer-nav a{
+  font-size: .9rem;
+  color: var(--muted);
+  transition: color .25s ease;
+}
+.footer-nav a:hover{ color: var(--cyan); }
+.footer-bottom{
+  padding-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-bottom p,
+.footer-bottom span{
+  font-size: .82rem;
+  color: #5f6d81;
+}
+
+/* ============ 11. BACK TO TOP + TOAST ============ */
+.back-to-top{
+  position: fixed;
+  bottom: 26px;
+  right: 26px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--grad);
+  color: #04121a;
+  box-shadow: 0 14px 34px -12px rgba(34,211,238,.85);
+  z-index: 90;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(18px) scale(.9);
+  transition: opacity .35s ease, visibility .35s ease, transform .4s var(--ease), box-shadow .35s ease;
+}
+.back-to-top.show{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+.back-to-top:hover{
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 22px 46px -12px rgba(34,211,238,.95);
+}
+.back-to-top:active{ transform: translateY(-1px) scale(1); }
+.back-to-top svg{ width: 20px; height: 20px; }
+
 .toast{
   position: fixed;
   left: 50%;
@@ -1029,55 +1271,7 @@ h2{
 }
 .toast.show{ transform: translate(-50%, 0); opacity: 1; }
 
-/* ============ 9. FOOTER ============ */
-.footer{
-  border-top: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(255,255,255,.018), transparent);
-  padding: 56px 0 30px;
-}
-.footer-inner{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding-bottom: 34px;
-  border-bottom: 1px solid var(--border);
-}
-.footer-brand p{
-  margin-top: 12px;
-  font-size: .88rem;
-  color: var(--muted);
-}
-.footer-nav{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 28px;
-}
-.footer-nav a{
-  font-size: .9rem;
-  color: var(--muted);
-  transition: color .25s ease, transform .25s ease;
-}
-.footer-nav a:hover{ color: var(--cyan); }
-.footer-bottom{
-  padding-top: 24px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  justify-content: space-between;
-}
-.footer-bottom p{
-  font-size: .82rem;
-  color: #5f6d81;
-}
-.footer-bottom span{
-  font-size: .82rem;
-  color: #5f6d81;
-}
-
-/* ============ 10. UTILITIES & ANIMATION ============ */
+/* ============ 12. UTILITIES & ANIMATION ============ */
 .reveal{
   opacity: 0;
   transform: translateY(28px);
@@ -1087,6 +1281,10 @@ h2{
 
 .grid-3 > .reveal:nth-child(2){ transition-delay: .12s; }
 .grid-3 > .reveal:nth-child(3){ transition-delay: .24s; }
+
+.process-grid > .reveal:nth-child(2){ transition-delay: .1s; }
+.process-grid > .reveal:nth-child(3){ transition-delay: .2s; }
+.process-grid > .reveal:nth-child(4){ transition-delay: .3s; }
 
 .hero-copy .reveal:nth-child(1){ transition-delay: .05s; }
 .hero-copy .reveal:nth-child(2){ transition-delay: .13s; }
@@ -1106,9 +1304,7 @@ h2{
   .hamburger{ display: block; }
   .mobile-menu{ display: flex; }
 
-  .hero{
-    padding: calc(var(--nav-h) + 54px) 0 76px;
-  }
+  .hero{ padding: calc(var(--nav-h) + 54px) 0 76px; }
   .hero-grid{
     grid-template-columns: 1fr;
     gap: 54px;
@@ -1122,10 +1318,15 @@ h2{
   .about-head{
     grid-template-columns: 1fr;
     gap: 20px;
-    text-align: left;
   }
 
   .grid-3{ grid-template-columns: 1fr; }
+
+  .process-grid{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 38px 22px;
+  }
+  .process-grid::before{ display: none; }
 
   .project-card{ grid-template-columns: 1fr; }
   .project-visual{
@@ -1134,6 +1335,8 @@ h2{
     border-bottom: 1px solid var(--border);
   }
   .project-info{ padding: 32px 26px; }
+
+  .toast{ bottom: 92px; }
 }
 
 @media (max-width: 640px){
@@ -1167,6 +1370,16 @@ h2{
   .card{ padding: 26px 22px; }
   .team-card{ padding: 32px 22px 28px; }
 
+  .process-grid{ grid-template-columns: 1fr; gap: 30px; }
+
+  .form-row{ grid-template-columns: 1fr; gap: 18px; }
+  .contact-form .btn{ width: 100%; }
+
+  .back-to-top{
+    width: 44px; height: 44px;
+    bottom: 18px; right: 18px;
+  }
+
   .footer-inner{
     flex-direction: column;
     gap: 24px;
@@ -1176,12 +1389,14 @@ h2{
 }
 
 @media (max-width: 400px){
-  .hero-stats{ flex-direction: column; gap: 14px; align-items: flex-start; }
-  .hero-stats{ align-items: center; }
+  .hero-stats{
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+  }
   .badge{ font-size: .7rem; padding: 7px 14px 7px 11px; }
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   *,
   *::before,
@@ -1196,6 +1411,9 @@ h2{
 </style>
 </head>
 <body>
+
+<!-- ============ SCROLL PROGRESS ============ -->
+<div class="scroll-progress" aria-hidden="true"><span id="scrollBar"></span></div>
 
 <!-- ============ BACKGROUND DECOR ============ -->
 <div class="bg-decor" aria-hidden="true">
@@ -1281,9 +1499,9 @@ h2{
           <a href="#about" class="btn btn-ghost">About NexaDev</a>
         </div>
 
-        <div class="hero-stats reveal">
+        <div class="hero-stats reveal" id="heroStats">
           <div class="stat">
-            <span class="stat-num">03</span>
+            <span class="stat-num" data-count="3" data-pad="2">00</span>
             <span class="stat-label">Team Members</span>
           </div>
           <div class="stat">
@@ -1297,7 +1515,6 @@ h2{
         </div>
       </div>
 
-      <!-- Hero visual -->
       <div class="hero-visual reveal">
         <div class="mockup" aria-hidden="true">
           <div class="mock-top">
@@ -1453,6 +1670,49 @@ h2{
     </div>
   </section>
 
+  <!-- ============ PROCESS (HOW WE WORK) ============ -->
+  <section class="section" id="process">
+    <div class="container">
+
+      <div class="process-head reveal">
+        <span class="eyebrow">Process</span>
+        <h2>How We <span class="grad-text">Work</span></h2>
+        <p class="section-sub">
+          Setiap solusi yang kami bangun melewati tahapan yang terstruktur —
+          dari memahami ide hingga siap digunakan.
+        </p>
+      </div>
+
+      <div class="process-grid">
+
+        <article class="process-step reveal">
+          <div class="step-number">01</div>
+          <h3>Discover</h3>
+          <p>Memahami ide, kebutuhan, dan tujuan dari setiap proyek yang akan dibangun.</p>
+        </article>
+
+        <article class="process-step reveal">
+          <div class="step-number">02</div>
+          <h3>Design</h3>
+          <p>Merancang struktur dan tampilan agar solusi mudah dipahami dan digunakan.</p>
+        </article>
+
+        <article class="process-step reveal">
+          <div class="step-number">03</div>
+          <h3>Develop</h3>
+          <p>Membangun solusi digital secara bertahap, terukur, dan berfokus pada kualitas.</p>
+        </article>
+
+        <article class="process-step reveal">
+          <div class="step-number">04</div>
+          <h3>Deliver</h3>
+          <p>Menyempurnakan, menguji, dan menyerahkan hasil akhir yang siap digunakan.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ============ PROJECTS ============ -->
   <section class="section" id="projects">
     <div class="container">
@@ -1495,12 +1755,31 @@ h2{
         <span class="eyebrow">Contact</span>
         <h2>Let's build something <span class="grad-text">great.</span></h2>
         <p>Have an idea or want to collaborate? Let's create something meaningful together.</p>
-        <button class="btn btn-primary" type="button" data-toast>
-          Let's Talk
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Nama</label>
+              <input type="text" id="name" name="name" placeholder="Nama lengkap" autocomplete="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="nama@email.com" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Pesan</label>
+            <textarea id="message" name="message" rows="4" placeholder="Ceritakan ide atau kebutuhan Anda..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Kirim Pesan
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
       </div>
     </div>
   </section>
@@ -1537,22 +1816,32 @@ h2{
   </div>
 </footer>
 
+<!-- ============ BACK TO TOP ============ -->
+<button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M12 19V5M6 11l6-6 6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
 <!-- ============ TOAST ============ -->
 <div class="toast" id="toast" role="status" aria-live="polite">
   <span class="pulse-dot"></span>
-  Terima kasih! NexaDev siap berkolaborasi dengan Anda.
+  <span id="toastMsg">Terima kasih! NexaDev siap berkolaborasi dengan Anda.</span>
 </div>
 
 <script>
 /* =========================================================
    NEXADEV — INTERACTIONS
-   1. Navbar scroll state
+   1. Navbar scroll state + scroll progress
    2. Mobile navigation
    3. Smooth scrolling
    4. Active nav on scroll
    5. Reveal animation on scroll
-   6. Button ripple + toast
-   7. Card spotlight (desktop)
+   6. Counter animation
+   7. Back to top
+   8. Button ripple + toast
+   9. Contact form
+   10. Card spotlight
    ========================================================= */
 (function () {
   'use strict';
@@ -1565,7 +1854,13 @@ h2{
   var allLinks    = document.querySelectorAll('a[href^="#"]');
   var sections    = document.querySelectorAll('main section[id]');
   var toast       = document.getElementById('toast');
+  var toastMsg    = document.getElementById('toastMsg');
+  var scrollBar   = document.getElementById('scrollBar');
+  var backToTop   = document.getElementById('backToTop');
+  var heroStats   = document.getElementById('heroStats');
+  var contactForm = document.getElementById('contactForm');
   var toastTimer  = null;
+  var counterDone = false;
 
   /* ---------- 2. Mobile navigation ---------- */
   function closeMenu() {
@@ -1643,7 +1938,7 @@ h2{
     });
   }
 
-  /* ---------- 1. Navbar scroll state ---------- */
+  /* ---------- 1. Navbar scroll state + scroll progress ---------- */
   var ticking = false;
 
   function onScroll() {
@@ -1651,7 +1946,14 @@ h2{
     ticking = true;
 
     window.requestAnimationFrame(function () {
-      nav.classList.toggle('scrolled', window.pageYOffset > 24);
+      var y = window.pageYOffset;
+      var docH = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docH > 0 ? (y / docH) * 100 : 0;
+
+      nav.classList.toggle('scrolled', y > 24);
+      scrollBar.style.width = pct + '%';
+      backToTop.classList.toggle('show', y > 480);
+
       updateActive();
       ticking = false;
     });
@@ -1680,7 +1982,65 @@ h2{
     revealEls.forEach(function (el) { el.classList.add('visible'); });
   }
 
-  /* ---------- 6. Button ripple + toast ---------- */
+  /* ---------- 6. Counter animation ---------- */
+  function runCounters() {
+    if (counterDone) return;
+    counterDone = true;
+
+    document.querySelectorAll('[data-count]').forEach(function (el) {
+      var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+      var pad = parseInt(el.getAttribute('data-pad'), 10) || 0;
+      var duration = 1400;
+      var start = null;
+
+      function step(ts) {
+        if (start === null) start = ts;
+        var p = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        var val = Math.round(eased * target);
+        var out = String(val);
+        while (out.length < pad) out = '0' + out;
+        el.textContent = out;
+        if (p < 1) window.requestAnimationFrame(step);
+        else {
+          var finalOut = String(target);
+          while (finalOut.length < pad) finalOut = '0' + finalOut;
+          el.textContent = finalOut;
+        }
+      }
+      window.requestAnimationFrame(step);
+    });
+  }
+
+  if (heroStats && 'IntersectionObserver' in window) {
+    var counterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          runCounters();
+          counterObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    counterObserver.observe(heroStats);
+  } else {
+    runCounters();
+  }
+
+  /* ---------- 7. Back to top ---------- */
+  backToTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ---------- 8. Button ripple + toast ---------- */
+  function showToast(msg) {
+    if (msg) toastMsg.textContent = msg;
+    toast.classList.add('show');
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () {
+      toast.classList.remove('show');
+    }, 3200);
+  }
+
   document.querySelectorAll('.btn').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       var rect = btn.getBoundingClientRect();
@@ -1700,15 +2060,36 @@ h2{
 
   document.querySelectorAll('[data-toast]').forEach(function (el) {
     el.addEventListener('click', function () {
-      toast.classList.add('show');
-      window.clearTimeout(toastTimer);
-      toastTimer = window.setTimeout(function () {
-        toast.classList.remove('show');
-      }, 2800);
+      showToast('Terima kasih! NexaDev siap berkolaborasi dengan Anda.');
     });
   });
 
-  /* ---------- 7. Card spotlight (desktop only) ---------- */
+  /* ---------- 9. Contact form ---------- */
+  if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var name    = contactForm.querySelector('#name').value.trim();
+      var email   = contactForm.querySelector('#email').value.trim();
+      var message = contactForm.querySelector('#message').value.trim();
+
+      if (!name || !email || !message) {
+        showToast('Mohon lengkapi semua field terlebih dahulu.');
+        return;
+      }
+
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!emailOk) {
+        showToast('Format email belum benar. Mohon dicek kembali.');
+        return;
+      }
+
+      showToast('Terima kasih, ' + name + '! Pesan Anda sudah kami terima.');
+      contactForm.reset();
+    });
+  }
+
+  /* ---------- 10. Card spotlight ---------- */
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     document.querySelectorAll('.card').forEach(function (card) {
       card.addEventListener('mousemove', function (e) {
